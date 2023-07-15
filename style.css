@@ -22,9 +22,13 @@ body {
     height: 20px;
 }
 
-.s {
-    background-color: green;
-}
+.o { background-color: gold;}
+.s { background-color: forestgreen; }
+.z { background-color: crimson; }
+.l { background-color: orange; }
+.i { background-color: deepskyblue; }
+.j { background-color: dodgerblue; }
+.t { background-color: mediumpurple; }
 
 .keyCapturer {
     position: absolute;

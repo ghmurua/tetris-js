@@ -10,22 +10,38 @@ function onKeyDownHandler(event) {
     else if (kc === 40) {
         move(10)    // abajo
     }
+
+    if (kc === 38) {
+        rotate(1)   // derecha
+    }
+    else if (kc === 90) {
+        rotate(-1)  // izquierda
+    }
 }
 
 document.querySelector('.main').addEventListener("mouseup",(e)=>{
     document.querySelector('.keyCapturer').focus()
 })
 
-function move(direction) {
-    for (let i=0; i<4; i++) {
-        document.querySelector(`.t${piece[i]}`).classList.toggle('s')
+function move(dir) {
+    updatePiece()
+
+    for (let i=2; i<2+numberOfPositions; i++) {
+        for (let j=0; j<4; j++) {
+            piece[i][j] += dir
+        }
     }
 
-    for (let i=0; i<4; i++) {
-        piece[i] += direction
-    }
+    updatePiece()
+}
 
-    for (let i=0; i<4; i++) {
-        document.querySelector(`.t${piece[i]}`).classList.toggle('s')
-    }
+function rotate(dir) {
+    updatePiece()
+
+    position += dir
+
+    if (position > (numberOfPositions + 1)) position = 2
+    else if (position < 2) position = numberOfPositions + 1
+
+    updatePiece()
 }
