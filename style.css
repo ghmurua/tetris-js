@@ -21,3 +21,20 @@ body {
     width: 20px;
     height: 20px;
 }
+
+.s {
+    background-color: green;
+}
+
+.keyCapturer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border: 0;
+    color: cadetblue;
+    background-color: cadetblue;
+}
+
+.keyCapturer:focus {
+    outline: none;
+}
