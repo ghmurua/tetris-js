@@ -33,6 +33,7 @@ function move(dir) {
     }
 
     updatePiece()
+    colide()
 }
 
 function rotate(dir) {
@@ -44,4 +45,5 @@ function rotate(dir) {
     else if (position < 2) position = numberOfPositions + 1
 
     updatePiece()
+    colide()
 }
