@@ -50,7 +50,57 @@ function collide() {
         withOldPiece = oldPieces.includes(piece[position][i] + 10)
         if (withBottom || withOldPiece) {
             oldPieces.push(...piece[position])
+            oldPieces.sort()
+            findLine()
             newPiece()
+        }
+    }
+}
+
+function findLine() {
+    for (let a=1; a<=191; a+=10) {
+        b = a + 10
+        count = 0
+        for (let i=a; i<b; i++) {
+            if (oldPieces.includes(i)) count++
+        }
+        if (count === 0) {
+            empty = a  // ultima linea completamente vacia
+        }
+        if (count === 10) {
+            // (a) es el inicio de la linea a eliminar
+            oldPieces = oldPieces.filter((num) => num<a || num>a+9)
+            len = oldPieces.length
+            for (let j=0; j<len; j++) {
+                if (oldPieces[j] < a) oldPieces[j] += 10
+            }
+            for (let j=a; j>empty; j-=10) {
+                getDownLine(j)
+            }
+        }
+    }
+}
+
+function getDownLine(line) {
+    let endLine = line + 10
+    for (let i=line; i<endLine; i++) {
+
+        // busco piezas en el lugar i (here) y arriba de i (upper)
+        here = document.querySelector(`.t${i}`).getAttribute('class')
+        here = here.split(' ')
+
+        if (here.length > 2) {
+            here = here[2]      // si encuentra está en index 2
+            document.querySelector(`.t${i}`).classList.remove(here)
+        }
+
+        upper = document.querySelector(`.t${i-10}`).getAttribute('class')
+        upper = upper.split(' ')
+
+        if (upper.length > 2) {
+            upper = upper[2]
+            document.querySelector(`.t${i-10}`).classList.remove(upper)
+            document.querySelector(`.t${i}`).classList.add(upper)
         }
     }
 }

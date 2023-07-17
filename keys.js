@@ -55,6 +55,7 @@ function rightCollide() {
         rightOldPiece = oldPieces.includes(piece[position][i] + 1)
         if (rightBorder || rightOldPiece) {
             nothingAtRight = false
+            break
         }
     }
     if (nothingAtRight) move(1)
@@ -67,6 +68,7 @@ function leftCollide() {
         leftOldPiece = oldPieces.includes(piece[position][i]-1)
         if (leftBorder || leftOldPiece) {
             nothingAtLeft = false
+            break
         }
     }
     if (nothingAtLeft) move(-1)

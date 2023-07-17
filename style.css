@@ -20,15 +20,16 @@ body {
 .tile {
     width: 20px;
     height: 20px;
+    box-sizing: border-box;
 }
 
-.o { background-color: gold;}
-.s { background-color: forestgreen; }
-.z { background-color: crimson; }
-.l { background-color: orange; }
-.i { background-color: deepskyblue; }
-.j { background-color: dodgerblue; }
-.t { background-color: mediumpurple; }
+.o { background-color: gold; border: 2px inset gold}
+.s { background-color: forestgreen; border: 2px inset forestgreen}
+.z { background-color: crimson; border: 2px inset crimson}
+.l { background-color: orange; border: 2px inset orange}
+.i { background-color: deepskyblue; border: 2px inset deepskyblue}
+.j { background-color: dodgerblue; border: 2px inset dodgerblue}
+.t { background-color: mediumpurple; border: 2px inset mediumpurple}
 
 .keyCapturer {
     position: absolute;
