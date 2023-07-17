@@ -44,7 +44,7 @@ function updatePiece() {
     }
 }
 
-function colide() {
+function collide() {
     for (let i=0; i<4; i++) {
         withBottom = piece[position][i] + 10 > 200
         withOldPiece = oldPieces.includes(piece[position][i] + 10)

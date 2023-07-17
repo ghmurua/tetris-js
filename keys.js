@@ -2,10 +2,10 @@ function onKeyDownHandler(event) {
     let kc = event.which || event.keyCode
 
     if (kc === 37) {
-        move(-1)    // izquierda
+        leftCollide(-1)    // izquierda
     }
     else if (kc === 39) {
-        move(1)     // derecha
+        rightCollide(1)     // derecha
     }
     else if (kc === 40) {
         move(10)    // abajo
@@ -33,7 +33,7 @@ function move(dir) {
     }
 
     updatePiece()
-    colide()
+    collide()
 }
 
 function rotate(dir) {
@@ -45,5 +45,29 @@ function rotate(dir) {
     else if (position < 2) position = numberOfPositions + 1
 
     updatePiece()
-    colide()
+    collide()
+}
+
+function rightCollide() {
+    nothingAtRight = true
+    for (let i=0; i<4; i++) {
+        rightBorder = (piece[position][i]) % 10 === 0
+        rightOldPiece = oldPieces.includes(piece[position][i] + 1)
+        if (rightBorder || rightOldPiece) {
+            nothingAtRight = false
+        }
+    }
+    if (nothingAtRight) move(1)
+}
+
+function leftCollide() {
+    nothingAtLeft = true
+    for (let i=0; i<4; i++) {
+        leftBorder = (piece[position][i]-1) % 10 === 0
+        leftOldPiece = oldPieces.includes(piece[position][i]-1)
+        if (leftBorder || leftOldPiece) {
+            nothingAtLeft = false
+        }
+    }
+    if (nothingAtLeft) move(-1)
 }
