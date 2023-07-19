@@ -2,20 +2,20 @@ function onKeyDownHandler(event) {
     let kc = event.which || event.keyCode
 
     if (kc === 37) {
-        leftCollide(-1)    // izquierda
+        leftCollide()
     }
     else if (kc === 39) {
-        rightCollide(1)     // derecha
+        rightCollide()
     }
     else if (kc === 40) {
         move(10)    // abajo
     }
 
     if (kc === 38) {
-        rotate(1)   // derecha
+        canRotateTouchingBorder(1)      // der
     }
     else if (kc === 90) {
-        rotate(-1)  // izquierda
+        canRotateTouchingBorder(-1)     // izq
     }
 }
 
@@ -72,4 +72,53 @@ function leftCollide() {
         }
     }
     if (nothingAtLeft) move(-1)
+}
+
+function getScreenSide() {
+    where = piece[position][1] % 10
+    if (where > 0 && where < 6) side = 'L'
+    else side = 'R'
+    return side
+}
+
+function canRotateTouchingBorder(dir) {
+    let side = getScreenSide()
+    let nextPosition = position + dir
+
+    if (nextPosition > (numberOfPositions + dir)) nextPosition = 2
+    if (nextPosition < 2) nextPosition = numberOfPositions + dir
+
+    let rightBorder = false
+    let iRightBorder = false   // pieza i se pasa por 2 al rotar a la derecha
+    let leftBorder = false
+
+    if (side === 'L') {
+        for (let i=0; i<4; i++) {
+            leftBorder = (piece[nextPosition][i]) % 10 === 0
+            if (leftBorder) break
+        }
+    }
+    if (side === 'R') {
+        for (let i=3; i>=0; i--) {
+            rightBorder = (piece[nextPosition][i] - 1) % 10 === 0
+            // iRightBorder si es false no se guarda y no hace falta el break
+            if ((piece[nextPosition][i] - 2) % 10 === 0) {
+                iRightBorder = true
+            }
+            if (rightBorder) break
+        }
+    }
+ 
+    if (side === 'L' && leftBorder) {
+        move(1)
+        rotate(dir)
+    }
+    else if (side === 'R' && rightBorder) {
+        if (iRightBorder) move(-1)
+        move(-1)
+        rotate(dir)
+    }
+    else {
+        rotate(dir)
+    }
 }
