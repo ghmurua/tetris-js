@@ -15,10 +15,19 @@ function getRandomPiece() {
     return tetrominoes[random]
 }
 
-piece = []
-numberOfPositions = 0
-position = 0
-oldPieces = []
+let piece = []
+let numberOfPositions = 0
+let position = 0
+let oldPieces = []
+let clockInterval = ''
+let speed = 800
+
+function setClock() {
+    clockInterval = setInterval(()=>{
+        move(10)
+    }, speed)
+}
+
 
 function newGame() {
     const fragment = document.createDocumentFragment()
@@ -28,6 +37,7 @@ function newGame() {
         fragment.appendChild(tile)
     }
     game.appendChild(fragment)
+    setClock()
 }
 
 function newPiece() {

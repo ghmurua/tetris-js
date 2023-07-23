@@ -20,6 +20,11 @@ function onKeyDownHandler(event) {
         tryRotate(-1)     // izq
     }
 
+    // ESC
+    if (kc === 27) {
+        clearInterval(clockInterval)
+    }
+
     getScreenSide()
 }
 
