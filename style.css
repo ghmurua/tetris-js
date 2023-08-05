@@ -8,6 +8,7 @@ body {
     height: 100vh;
     place-items: center;
     background-color: cadetblue;
+    align-content: center;
 }
 
 .game {
@@ -21,6 +22,17 @@ body {
     width: 20px;
     height: 20px;
     box-sizing: border-box;
+}
+
+.showNext {
+    display: grid;
+    grid-template-columns: repeat(5,auto);
+    border: 5px solid #888;
+    background-color: #111;
+}
+
+h3 {
+    line-height: .1;
 }
 
 .o { background-color: gold; border: 2px inset gold}

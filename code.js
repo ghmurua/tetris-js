@@ -1,15 +1,16 @@
 const game = document.querySelector('.game')
+const showNext = document.querySelector('.showNext')
 
-// color, cant de posiciones, ubicaciones en cada posicion
+// color, cant de posiciones, ubicaciones en cada posicion, next
 function getRandomPiece() {
     tetrominoes = [
-        ['o',1,[15,16,25,26]],
-        ['s',2,[24,15,25,16],[15,25,26,36]],
-        ['z',2,[14,15,25,26],[24,15,34,25]],
-        ['i',2,[15,16,17,18],[6,16,26,36]],
-        ['l',4,[14,15,24,16],[4,5,15,25],[14,6,15,16],[5,15,25,26]],
-        ['j',4,[14,15,16,26],[24,5,15,25],[4,14,15,16],[5,15,25,6]],
-        ['t',4,[24,15,25,26],[15,25,35,26],[24,25,35,26],[24,15,25,35]]
+        ['o',1,[15,16,25,26],[7,8,12,13]],
+        ['s',2,[24,15,25,16],[15,25,26,36],[8,9,12,13]],
+        ['z',2,[14,15,25,26],[24,15,34,25],[7,8,13,14]],
+        ['i',2,[15,16,17,18],[6,16,26,36],[7,8,9,10]],
+        ['l',4,[14,15,24,16],[4,5,15,25],[14,6,15,16],[5,15,25,26],[9,12,13,14]],
+        ['j',4,[14,15,16,26],[24,5,15,25],[4,14,15,16],[5,15,25,6],[7,12,13,14]],
+        ['t',4,[24,15,25,26],[15,25,35,26],[24,25,35,26],[24,15,25,35],[8,12,13,14]]
     ]
     random = Math.floor(Math.random() * 7)
     return tetrominoes[random]
@@ -21,6 +22,7 @@ let position = 0
 let oldPieces = []
 let clockInterval = ''
 let speed = 800
+let next = getRandomPiece()
 
 function setClock() {
     clockInterval = setInterval(()=>{
@@ -38,10 +40,21 @@ function newGame() {
     }
     game.appendChild(fragment)
     setClock()
+
+    const fragment2 = document.createDocumentFragment()
+    for ( let j=1; j<=20; j++ ) {
+        let tile = document.createElement("DIV")
+        tile.setAttribute('class',`tile n${j}`)
+        fragment2.appendChild(tile)
+    }
+    showNext.appendChild(fragment2)
 }
 
 function newPiece() {
-    piece = getRandomPiece()
+    piece = next
+    updateNext()
+    next = getRandomPiece()
+    updateNext()
 
     numberOfPositions = piece[1]
     position = 2    // index 2
@@ -51,6 +64,12 @@ function newPiece() {
 function updatePiece() {
     for (let i=0; i<4; i++) {
         document.querySelector(`.t${piece[position][i]}`).classList.toggle(`${piece[0]}`)
+    }
+}
+
+function updateNext() {
+    for (let i=0; i<4; i++) {
+        document.querySelector(`.n${next[next.length-1][i]}`).classList.toggle(`${next[0]}`)
     }
 }
 
@@ -116,4 +135,5 @@ function getDownLine(line) {
 }
 
 newGame()
+updateNext()
 newPiece()
