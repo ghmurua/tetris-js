@@ -39,6 +39,7 @@ let speed = 800
 let nextPiece = getRandomPiece()
 let holdPiece = []
 let holdUsed = false
+let landed = false
 
 function setClock() {
     clockInterval = setInterval(()=>{
@@ -116,6 +117,7 @@ function collide() {
             findLine()
             newPiece()
             holdUsed = false
+            landed = true
         }
     }
 }

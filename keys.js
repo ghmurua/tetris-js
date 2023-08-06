@@ -22,6 +22,9 @@ function onKeyDownHandler(event) {
     else if (kc === 67) {
         tryHold()         // C
     }
+    else if (kc === 32) {
+        hardDrop()        // SPACEBAR
+    }
 
     // ESC
     if (kc === 27) {
@@ -154,4 +157,9 @@ function tryHold() {
         updatePiece()
         holdUsed = true
     }
+}
+
+function hardDrop() {
+    landed = false
+    while (landed === false) move(10)
 }
