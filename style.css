@@ -5,10 +5,14 @@ body {
 
 .main {
     display: grid;
+    grid-template-columns: repeat(3,auto);
     height: 100vh;
     place-items: center;
     background-color: cadetblue;
     align-content: center;
+    justify-content: center;
+    align-items: start;
+    gap: 10px;
 }
 
 .game {
@@ -24,7 +28,7 @@ body {
     box-sizing: border-box;
 }
 
-.showNext {
+.show {
     display: grid;
     grid-template-columns: repeat(5,auto);
     border: 5px solid #888;

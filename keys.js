@@ -10,14 +10,17 @@ function onKeyDownHandler(event) {
         nothingAtRight()
     }
     else if (kc === 40) {
-        move(10)    // abajo
+        move(10)          // DOWN
     }
 
     if (kc === 38) {
-        tryRotate(1)      // der
+        tryRotate(1)      // UP rotar der
     }
     else if (kc === 90) {
-        tryRotate(-1)     // izq
+        tryRotate(-1)     // Z rotar izq
+    }
+    else if (kc === 67) {
+        tryHold()         // C
     }
 
     // ESC
@@ -128,5 +131,27 @@ function tryRotate(dir) {
         console.log('R')
         move(1)
         rotate(dir)
+    }
+}
+
+function tryHold() {
+    if (holdPiece.length === 0) {
+        holdPiece = initialPositionOf(piece[0])
+        updateHold()
+        updatePiece()
+        newPiece()
+        holdUsed = true
+    }
+    else if (holdUsed === false) {
+        updateHold()
+        aux = holdPiece
+        holdPiece = initialPositionOf(piece[0])
+        updateHold()
+        updatePiece()
+        piece = aux
+        numberOfPositions = piece[1]
+        position = 2
+        updatePiece()
+        holdUsed = true
     }
 }

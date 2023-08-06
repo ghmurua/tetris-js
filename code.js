@@ -1,5 +1,6 @@
 const game = document.querySelector('.game')
-const showNext = document.querySelector('.showNext')
+const next = document.querySelector('.next')
+const hold = document.querySelector('.hold')
 
 // color, cant de posiciones, ubicaciones en cada posicion, next
 function getRandomPiece() {
@@ -16,13 +17,28 @@ function getRandomPiece() {
     return tetrominoes[random]
 }
 
+function initialPositionOf(name) {
+    const initial = {
+        "o": ['o',1,[15,16,25,26],[7,8,12,13]],
+        "s": ['s',2,[24,15,25,16],[15,25,26,36],[8,9,12,13]],
+        "z": ['z',2,[14,15,25,26],[24,15,34,25],[7,8,13,14]],
+        "i": ['i',2,[15,16,17,18],[6,16,26,36],[7,8,9,10]],
+        "l": ['l',4,[14,15,24,16],[4,5,15,25],[14,6,15,16],[5,15,25,26],[9,12,13,14]],
+        "j": ['j',4,[14,15,16,26],[24,5,15,25],[4,14,15,16],[5,15,25,6],[7,12,13,14]],
+        "t": ['t',4,[24,15,25,26],[15,25,35,26],[24,25,35,26],[24,15,25,35],[8,12,13,14]]
+    }
+    return initial[name]
+}
+
 let piece = []
 let numberOfPositions = 0
 let position = 0
 let oldPieces = []
 let clockInterval = ''
 let speed = 800
-let next = getRandomPiece()
+let nextPiece = getRandomPiece()
+let holdPiece = []
+let holdUsed = false
 
 function setClock() {
     clockInterval = setInterval(()=>{
@@ -47,13 +63,21 @@ function newGame() {
         tile.setAttribute('class',`tile n${j}`)
         fragment2.appendChild(tile)
     }
-    showNext.appendChild(fragment2)
+    next.appendChild(fragment2)
+
+    const fragment3 = document.createDocumentFragment()
+    for ( let k=1; k<=20; k++ ) {
+        let tile = document.createElement("DIV")
+        tile.setAttribute('class',`tile h${k}`)
+        fragment3.appendChild(tile)
+    }
+    hold.appendChild(fragment3)
 }
 
 function newPiece() {
-    piece = next
+    piece = nextPiece
     updateNext()
-    next = getRandomPiece()
+    nextPiece = getRandomPiece()
     updateNext()
 
     numberOfPositions = piece[1]
@@ -68,12 +92,21 @@ function updatePiece() {
 }
 
 function updateNext() {
+    let len = nextPiece.length
     for (let i=0; i<4; i++) {
-        document.querySelector(`.n${next[next.length-1][i]}`).classList.toggle(`${next[0]}`)
+        document.querySelector(`.n${nextPiece[len-1][i]}`).classList.toggle(`${nextPiece[0]}`)
+    }
+}
+
+function updateHold() {
+    let len = holdPiece.length
+    for (let i=0; i<4; i++) {
+        document.querySelector(`.h${holdPiece[len-1][i]}`).classList.toggle(`${holdPiece[0]}`)
     }
 }
 
 function collide() {
+    let withOldPiece
     for (let i=0; i<4; i++) {
         withBottom = piece[position][i] + 10 > 200
         withOldPiece = oldPieces.includes(piece[position][i] + 10)
@@ -82,6 +115,7 @@ function collide() {
             oldPieces.sort()
             findLine()
             newPiece()
+            holdUsed = false
         }
     }
 }
