@@ -10,6 +10,7 @@ function onKeyDownHandler(event) {
         nothingAtRight()
     }
     else if (kc === 40) {
+        softDropScore++
         move(10)          // DOWN
     }
 
@@ -161,5 +162,8 @@ function tryHold() {
 
 function hardDrop() {
     landed = false
-    while (landed === false) move(10)
+    while (landed === false) {
+        hardDropScore += 2
+        move(10)
+    }
 }

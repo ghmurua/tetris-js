@@ -11,7 +11,7 @@ body {
     background-color: cadetblue;
     align-content: center;
     justify-content: center;
-    align-items: start;
+    align-items: stretch;
     gap: 10px;
 }
 
@@ -35,8 +35,21 @@ body {
     background-color: #111;
 }
 
-h3 {
+.sideInfo {
+    display: grid;
+    align-content: space-between;
+}
+
+p {
+    padding: 5px;
+    font-size: 20px;
+    color: #efe;
+    justify-content: center;
+}
+
+h3, h4 {
     line-height: .1;
+    text-align: center;
 }
 
 .o { background-color: gold; border: 2px inset gold}

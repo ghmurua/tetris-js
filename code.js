@@ -1,6 +1,9 @@
 const game = document.querySelector('.game')
 const next = document.querySelector('.next')
 const hold = document.querySelector('.hold')
+const showScore = document.querySelector('.showScore')
+const showLevel = document.querySelector('.showLevel')
+const showLines = document.querySelector('.showLines')
 
 // color, cant de posiciones, ubicaciones en cada posicion, next
 function getRandomPiece() {
@@ -40,6 +43,13 @@ let nextPiece = getRandomPiece()
 let holdPiece = []
 let holdUsed = false
 let landed = false
+let totalScore = 0
+let totalLevel = 1
+let totalLines = 0
+let score = 0
+let lines = 0
+let hardDropScore = 0
+let softDropScore = 0
 
 function setClock() {
     clockInterval = setInterval(()=>{
@@ -47,6 +57,21 @@ function setClock() {
     }, speed)
 }
 
+function updateScore() {
+    score = hardDropScore + softDropScore
+    if (lines === 4) score += 800 * totalLevel
+    if (lines === 3) score += 500 * totalLevel
+    if (lines === 2) score += 300 * totalLevel
+    if (lines === 1) score += 100 * totalLevel
+    totalScore += score
+
+    totalLines += lines
+    totalLevel = Math.floor((totalLines / 10) + 1)
+
+    showScore.innerHTML = totalScore
+    showLevel.innerHTML = totalLevel
+    showLines.innerHTML = totalLines
+}
 
 function newGame() {
     const fragment = document.createDocumentFragment()
@@ -84,6 +109,9 @@ function newPiece() {
     numberOfPositions = piece[1]
     position = 2    // index 2
     updatePiece()
+    updateScore()
+    hardDropScore = 0
+    softDropScore = 0
 }
 
 function updatePiece() {
@@ -123,6 +151,7 @@ function collide() {
 }
 
 function findLine() {
+    lines = 0
     for (let a=1; a<=191; a+=10) {
         b = a + 10
         count = 0
@@ -142,6 +171,7 @@ function findLine() {
             for (let j=a; j>empty; j-=10) {
                 getDownLine(j)
             }
+            lines++
         }
     }
 }
