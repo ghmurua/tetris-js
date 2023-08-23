@@ -40,6 +40,7 @@ let numberOfPositions = 0
 let position = 0
 let oldPieces = []
 let clockInterval = ''
+let waitToSettle = ''
 const speedTable = [750,690,630,570,520,470,420,370,330,290,250,210,170,130,90,50,10]
 let speed = speedTable[0]
 let nextPiece = getRandomPiece()
@@ -58,7 +59,7 @@ let isPaused = false
 
 function setClock() {
     clockInterval = setInterval(()=>{
-        move(10)
+        tryMoveDown()
     }, speed)
 }
 
@@ -140,6 +141,7 @@ function newPiece() {
     updateScore()
     hardDropScore = 0
     softDropScore = 0
+    landed = false
 }
 
 function updatePiece() {
@@ -162,20 +164,23 @@ function updateHold() {
     }
 }
 
-function collide() {
-    let withOldPiece
-    for (let i=0; i<4; i++) {
-        withBottom = piece[position][i] + 10 > 200
-        withOldPiece = oldPieces.includes(piece[position][i] + 10)
-        if (withBottom || withOldPiece) {
-            oldPieces.push(...piece[position])
-            oldPieces.sort()
-            findLine()
-            newPiece()
-            holdUsed = false
-            landed = true
-        }
-    }
+function readyToSettle() {
+    waitToSettle = setTimeout(()=>{
+        settle()
+    }, 250)
+}
+
+function cancelSettle() {
+    clearTimeout(waitToSettle)
+}
+
+function settle() {
+    oldPieces.push(...piece[position])
+    oldPieces.sort()
+    findLine()
+    newPiece()
+    holdUsed = false
+    landed = true
 }
 
 function findLine() {

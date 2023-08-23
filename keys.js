@@ -20,14 +20,16 @@ function onKeyDownHandler(event) {
     if (isPaused) return
 
     if (kc === 37) {
+        cancelSettle()
         nothingAtLeft()
     }
     else if (kc === 39) {
+        cancelSettle()
         nothingAtRight()
     }
-    else if (kc === 40) {
-        softDropScore++
-        move(10)          // DOWN
+    else if (kc === 40) { // DOWN
+        if (!nothingAtDown() && landed) settle()
+        else tryMoveDown()
     }
 
     if (kc === 38) {
@@ -60,10 +62,10 @@ function move(dir) {
     }
 
     updatePiece()
-    collide()
 }
 
 function rotate(dir) {
+    cancelSettle()
     updatePiece()
 
     position += dir
@@ -72,7 +74,6 @@ function rotate(dir) {
     else if (position < 2) position = numberOfPositions + 1
 
     updatePiece()
-    collide()
 }
 
 function nothingAtRight() {
@@ -171,10 +172,43 @@ function tryHold() {
     }
 }
 
+function nothingAtDown() {
+    let withOldPiece
+    for (let i=0; i<4; i++) {
+        withBottom = piece[position][i] + 10 > 200
+        withOldPiece = oldPieces.includes(piece[position][i] + 10)
+        if (withBottom || withOldPiece) {
+            console.log('suelo')
+            landed = true
+            return false
+        }
+    }
+    return true
+}
+
+function tryMoveDown() {
+    if (nothingAtDown()) {
+        softDropScore++
+        move(10)
+    }
+    else {
+        readyToSettle()
+    }
+}
+
+function hardMoveDown() {
+    if (nothingAtDown()) {
+        move(10)
+    }
+    else {
+        settle()
+    }
+}
+
 function hardDrop() {
     landed = false
     while (landed === false) {
         hardDropScore += 2
-        move(10)
+        hardMoveDown()
     }
 }
