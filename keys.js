@@ -3,6 +3,22 @@ let side = ''
 function onKeyDownHandler(event) {
     let kc = event.which || event.keyCode
 
+    // ENTER
+    if (kc == 13 && !started) {
+        started = true
+        newGame()
+    }
+
+    if (!started) return
+
+    // ESC
+    if (kc === 27) {
+        isPaused = !isPaused
+        pause()
+    }
+
+    if (isPaused) return
+
     if (kc === 37) {
         nothingAtLeft()
     }
@@ -25,11 +41,6 @@ function onKeyDownHandler(event) {
     }
     else if (kc === 32) {
         hardDrop()        // SPACEBAR
-    }
-
-    // ESC
-    if (kc === 27) {
-        clearInterval(clockInterval)
     }
 
     getScreenSide()

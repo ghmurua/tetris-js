@@ -72,3 +72,27 @@ h3, h4 {
 .keyCapturer:focus {
     outline: none;
 }
+
+.gameStart, .gamePause {
+    display: grid;
+    place-items: center;
+    width: 200px;
+    height: 400px;
+    font-size: large;
+}
+
+.gameStart {
+    background-color: tomato;
+}
+
+.gamePause {
+    background-color: yellowgreen;
+}
+
+.startMsg, .pauseMsg {
+    position: absolute;
+}
+
+.hide {
+    display: none;
+}

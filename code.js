@@ -4,6 +4,8 @@ const hold = document.querySelector('.hold')
 const showScore = document.querySelector('.showScore')
 const showLevel = document.querySelector('.showLevel')
 const showLines = document.querySelector('.showLines')
+const startMsg = document.querySelector('.startMsg')
+const pauseMsg = document.querySelector('.pauseMsg')
 
 // color, cant de posiciones, ubicaciones en cada posicion, next
 function getRandomPiece() {
@@ -50,6 +52,8 @@ let score = 0
 let lines = 0
 let hardDropScore = 0
 let softDropScore = 0
+let started = false
+let isPaused = false
 
 function setClock() {
     clockInterval = setInterval(()=>{
@@ -73,7 +77,7 @@ function updateScore() {
     showLines.innerHTML = totalLines
 }
 
-function newGame() {
+function init() {
     const fragment = document.createDocumentFragment()
     for ( let i=1; i<=200; i++ ) {
         let tile = document.createElement("DIV")
@@ -81,7 +85,6 @@ function newGame() {
         fragment.appendChild(tile)
     }
     game.appendChild(fragment)
-    setClock()
 
     const fragment2 = document.createDocumentFragment()
     for ( let j=1; j<=20; j++ ) {
@@ -98,6 +101,22 @@ function newGame() {
         fragment3.appendChild(tile)
     }
     hold.appendChild(fragment3)
+}
+
+function newGame() {
+    setClock()
+    updateNext()
+    newPiece()
+    game.classList.remove('gameStart')
+    startMsg.classList.add('hide')
+}
+
+function pause() {
+    if (isPaused) clearInterval(clockInterval)
+    else setClock()
+
+    game.classList.toggle('gamePause')
+    pauseMsg.classList.toggle('hide')
 }
 
 function newPiece() {
@@ -200,6 +219,4 @@ function getDownLine(line) {
     }
 }
 
-newGame()
-updateNext()
-newPiece()
+init()
