@@ -40,7 +40,8 @@ let numberOfPositions = 0
 let position = 0
 let oldPieces = []
 let clockInterval = ''
-let speed = 800
+const speedTable = [750,690,630,570,520,470,420,370,330,290,250,210,170,130,90,50,10]
+let speed = speedTable[0]
 let nextPiece = getRandomPiece()
 let holdPiece = []
 let holdUsed = false
@@ -61,6 +62,12 @@ function setClock() {
     }, speed)
 }
 
+function updateSpeed() {
+    speed = speedTable[totalLevel] || 16
+    clearInterval(clockInterval)
+    setClock()
+}
+
 function updateScore() {
     score = hardDropScore + softDropScore
     if (lines === 4) score += 800 * totalLevel
@@ -75,6 +82,8 @@ function updateScore() {
     showScore.innerHTML = totalScore
     showLevel.innerHTML = totalLevel
     showLines.innerHTML = totalLines
+
+    updateSpeed()
 }
 
 function init() {
